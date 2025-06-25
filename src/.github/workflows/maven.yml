@@ -1,0 +1,33 @@
+name: Java CI with Maven and Allure
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up Allure Report
+        uses: actions/setup-java@v4
+
+      - name: Install dependencies and run tests
+        run: mvn clean test site io.qameta.allure:allure-maven:report
+
+      - name: Upload Allure Report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/site/allure-maven-plugin

@@ -1,0 +1,6 @@
+version: '3.8'
+services:
+  selenium-tests:
+    build: .
+    volumes:
+      - ./allure-results:/project/allure-results
